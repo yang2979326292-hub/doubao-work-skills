@@ -19,8 +19,8 @@
 ## 3. 适配豆包工作的运行环境
 
 - **命令执行方式**：豆包工作在 Windows 电脑上用它自带的 PowerShell 7 执行命令，bash 不可用；在云主机上用 Linux bash。
-  - 脚本优先用 PowerShell 7（`.ps1`，第一行写 `#Requires -Version 7.0`）或 Node.js（`.mjs`，只用 Node 自带模块）。
-  - 不要依赖 git、Python 或需要另外安装的软件。确实需要的话，在 SKILL.md 的“前置条件”里写清楚，并说明缺失时 Agent 应该怎么处理。
+  - 脚本优先用 PowerShell 7（`.ps1`，第一行写 `#Requires -Version 7.0`）、Node.js（`.mjs`，只用 Node 自带模块）或 Python 3（`.py`，只用标准库）。豆包工作在 Windows 电脑上自带这三种运行环境；云主机上自带 Node.js 和 Python 3，没有 PowerShell 7。
+  - 不要依赖 git、第三方 Python 包（例如 PyYAML）或需要另外安装的软件。确实需要的话，在 SKILL.md 的“前置条件”里写清楚，并说明缺失时 Agent 应该怎么处理。
 - **路径**：不写任何个人电脑上的绝对路径（例如 `C:\Users\某某\...`）。在 SKILL.md 里写“脚本在本 SKILL.md 同目录下的 `scripts/xxx`”，由 Agent 拼出实际路径。
 - **执行环境**：需要操作本机软件、文件或本机端口（`127.0.0.1`）的 skill，要在 SKILL.md 里写明“必须在用户电脑上执行；当前是云主机时先切换到用户电脑”。
 - **编码与换行**：所有文本文件用无 BOM 的 UTF-8、LF 换行（`.gitattributes` 已经设置好）。脚本读写中文时显式指定 UTF-8。
