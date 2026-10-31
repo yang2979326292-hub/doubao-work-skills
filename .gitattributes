@@ -1,0 +1,20 @@
+# 文本文件统一用 LF 换行，避免在 Windows 上被改成 CRLF
+* text=auto eol=lf
+*.ps1 text eol=lf
+*.psm1 text eol=lf
+*.mjs text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+
+# Windows 批处理必须用 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.pdf binary
