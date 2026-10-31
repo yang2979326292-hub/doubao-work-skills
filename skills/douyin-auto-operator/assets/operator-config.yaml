@@ -1,0 +1,103 @@
+# ============================================================
+# 抖音自动运营 · 个性化配置（operator-config.yaml）
+# 用法：复制本文件，按你的账号实际情况填写；Agent 每次运营前先读取本文件，
+#       所有选题、风格、文案、BGM、发布时间都以这里为准。
+# 未填写的字段使用 references/ 下的默认值；带 [必填] 的不要留空。
+# ============================================================
+
+# ---------- 1. 账号信息 ----------
+account:
+  nickname: ""              # [必填] 账号昵称，如「星河夜读」
+  douyin_id: ""             # [必填] 抖音号（数字）
+  homepage_bio: ""          # 主页简介，一句话说明账号价值，建议含关注理由
+  creator_center: "https://creator.douyin.com/"
+
+# ---------- 2. 阶段目标 ----------
+goal:
+  # 任选：followers（涨粉优先）/ traffic（流量优先）/ monetize（变现优先）
+  primary: "followers"
+  phase_weeks: 4            # 当前阶段持续周数
+  # 健康度阈值（用于数据复盘，可改）
+  benchmark:
+    like_rate_good: 3.0     # 点赞率(%)合格线
+    like_rate_great: 5.0    # 点赞率(%)优质线
+    swipe_healthy: 55.0     # 划走率/2秒跳出(%)健康线（低于此值健康）
+
+# ---------- 3. 内容母题（可自定义任意多个，决定运营方向）----------
+# 每个母题独立配置：选题方向、叙事结构、情绪落点；Agent 按 rotation 排期轮换。
+topics:
+  - name: "历史人文"
+    enabled: true
+    weight: 1                # 权重，越大排期越频繁
+    subject: "历史人物的至暗时刻与突围"
+    angle: "用真实史料讲一个人如何在低谷中站起来"
+    structure:               # 文案结构（按顺序）
+      - "强钩子：开头几行抛反差/悬念/爽点"
+      - "史实铺垫：时间、地点、人物、事件，引用可靠史料"
+      - "情绪反转：跌入谷底 → 转折 → 突围"
+      - "升华落点：回到当下普通人的人生感悟"
+    ending: "给读者陪伴感与行动启发"
+    sources: ["正史", "人物传记", "可信史料"]
+  - name: "未来星际"
+    enabled: true
+    weight: 1
+    subject: "AI 视角理解未来、高等文明、宇宙奇观"
+    angle: "用身份反差与未来清单，呈现文明的可能性"
+    structure:
+      - "强钩子：身份/认知反差"
+      - "排比式未来清单：如戴森球、火星城、意识上传"
+      - "宏大叙事 → 收束到个体的人"
+      - "结尾设问，引发思考与评论"
+    ending: "落点始终是人，而非技术本身"
+    sources: ["科学概念", "科幻设定", "合理推演"]
+  # 想加新母题时，照上面格式继续追加即可（如：知识科普、城市故事、情感治愈）
+
+# ---------- 4. 视觉风格 ----------
+visual:
+  aspect_ratio: "16:9"      # 横屏氛围图；也可改 9:16 / 1:1
+  resolution: "2730x1536"
+  style_keywords:           # 图片生成风格关键词，按喜好增删
+    - "电影化写实"
+    - "宏大对称构图"
+    - "冷暖光色对照"
+    - "体积光"
+    - "云海/雾气体积感"
+  color_tone: "冷青基调 + 暖光点缀"
+  image_count: 1            # 每条图文图片数（平台话题/排版实测以 1 张横屏最稳）
+
+# ---------- 5. 文案规范 ----------
+copywriting:
+  max_chars: 950            # 描述区 1000 字硬上限，务必 ≤950 防止截断丢结尾
+  title_max_chars: 20       # 标题 ≤20 字
+  title_hook_chars: 7       # 标题前 7 字内出现钩子
+  tone: "短句、口语化、有情绪张力"
+  hashtags_count: 5         # 每条稳定 5 个可点击真实话题（第 6 个会替换第 5 个）
+  default_hashtags: ["原创"] # 每条都带的基础话题
+  comment_prompt: true      # 结尾是否加评论引导（针对评论为 0 的问题）
+  follow_reason: true       # 是否明确给出关注理由（针对吸粉为 0 的问题）
+
+# ---------- 6. BGM 规则 ----------
+bgm:
+  required: true            # 无 BGM 视为不合格
+  pick_method: "hot_chart"  # hot_chart=从音乐面板「热门榜」挑选；禁止 keyword 搜索
+  avoid_obscure: true
+  by_theme:                 # 不同母题的曲风
+    历史人文: "极简钢琴/大提琴，舒缓纯音乐"
+    未来星际: "空灵合成器 + 极简钢琴"
+
+# ---------- 7. 发布节奏与流程 ----------
+schedule:
+  publish_time: "20:00"     # 每天固定发布时间（整点）
+  prep_time: "22:00"        # 前一天晚上备稿（汇报 + 存草稿）
+  timezone: "Asia/Shanghai"
+  frequency: "daily"
+workflow:
+  review_before_publish: false # true=每次先送审、用户确认后才发；false=按计划自动发布
+  auto_save_draft: true        # 平台自动保存草稿，备稿后次日直接发布
+  user_can_intervene: true     # 发布前用户始终可审核或要求调整
+
+# ---------- 8. 学习与复盘 ----------
+learning:
+  study_competitors: true   # 定期用视频提取能力学习同赛道高赞作品
+  study_items: ["开头钩子", "文案结构", "史料用法", "结尾设问", "画面与BGM"]
+  verify_with_own_data: true # 学到的要素再经自家数据验证
