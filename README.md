@@ -14,6 +14,8 @@
 
 ## 安装到豆包工作
 
+> 只想下载文件的话，直接点：[下载整个合集 ZIP](https://codeload.github.com/yang2979326292-hub/doubao-work-skills/zip/refs/heads/main)，解压后在 `skills` 文件夹里取需要的 skill。下面是三种安装方式。
+
 ### 方法一：让豆包工作帮你装（推荐）
 
 在豆包工作里直接说：
@@ -24,7 +26,7 @@
 
 ### 方法二：手动安装
 
-1. 在本页点 **Code → Download ZIP**，下载后解压。
+1. 点上面的 [下载合集 ZIP](https://codeload.github.com/yang2979326292-hub/doubao-work-skills/zip/refs/heads/main)（或在本页点 **Code → Download ZIP**），下载后解压。
 2. 把 `skills` 文件夹里你要用的 skill 文件夹（比如 `adspower-browser`）整个复制到豆包工作的用户 skill 目录：
 
    ```
