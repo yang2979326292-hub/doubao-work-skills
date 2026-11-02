@@ -1,0 +1,8 @@
+# Runtime invokes Windows PowerShell 5.1; preserve the verified UTF-8 BOM script bytes.
+*.ps1 -text
+*.exe binary
+*.zip binary
+*.mjs text eol=lf
+*.cs text eol=lf
+*.md text eol=lf
+*.json text eol=lf

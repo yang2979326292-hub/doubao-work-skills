@@ -1,0 +1,8 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {JSDOM} from 'jsdom';import {bootstrap} from '../src/renderer.mjs';import {upgradeRegions} from '../src/regions.mjs';import {css}from '../src/theme.mjs';
+test('三栏统一底色，嵌套面板不叠加，重复配置不重写CSS',async()=>{
+ const dom=new JSDOM('<div data-testid="chat-route-layout"><aside data-testid="flow_chat_sidebar"><div data-testid="chat_list_wrapper"></div></aside><div id="chat-route-main"><main><div data-testid="chat_input"></div></main></div><aside data-testid="samantha_layout_right_side"><div data-testid="right-panel-container"><section class="fixedPanel"><header class="fixedPanelHeader"></header></section></div></aside></div>',{url:'doubaowork://doubaowork-chat/',runScripts:'outside-only'});const w=dom.window;w.URL.revokeObjectURL=()=>{};w.eval('('+bootstrap.toString()+')()');w.eval('('+upgradeRegions.toString()+')()');
+ const config={enabled:true,css:css({opacity:.53}),opacity:.53,mediaKey:'',revision:'test'};await w.__DCS__.apply(config);
+ for(const sel of ['main','[data-testid="flow_chat_sidebar"]','[data-testid="right-panel-container"]'])assert.equal(w.getComputedStyle(w.document.querySelector(sel)).backgroundColor,'rgba(24, 24, 24, 0.53)');
+ assert.ok(w.document.querySelector('.fixedPanel').hasAttribute('data-dcs-nested'));
+ let writes=0;const style=w.document.getElementById('dcs-theme-style');const observer=new w.MutationObserver(()=>writes++);observer.observe(style,{childList:true});await w.__DCS__.apply(config);await new Promise(r=>setTimeout(r,10));assert.equal(writes,0);observer.disconnect();w.__DCS__.destroy();assert.equal(w.document.querySelectorAll('[data-dcs-surface],[data-dcs-nested]').length,0);dom.window.close();
+});

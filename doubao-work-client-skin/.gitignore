@@ -1,0 +1,7 @@
+data/
+node_modules/
+*.log
+*.tmp
+runtime/node.exe
+豆包工作-皮肤启动.exe
+豆包客户端皮肤-自动启动版.exe

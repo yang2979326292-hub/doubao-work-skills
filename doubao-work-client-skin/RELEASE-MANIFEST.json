@@ -1,0 +1,47 @@
+{
+  "project": "doubao-work-client-skin",
+  "finalState": "Windows client; no startup animation; regionVersion=4; user confirmed sidebar fix",
+  "sourceArtifact": {
+    "name": "豆包客户端皮肤-无动画左侧修复版.zip",
+    "sha256": "e253a39015f757d657735ebd785feb83ada03b7a55c7226f4cf9e4962e429c6e",
+    "bytes": 33286783
+  },
+  "publicArtifact": {
+    "name": "豆包客户端皮肤-最终发布版.zip",
+    "bytes": 33314658,
+    "sha256": "ff3dc98b1f0ec0244aeae144fa00cb0cb6b1c0e97e26df482d446ee034738ade"
+  },
+  "privacy": "Personal media, settings, screenshots, raw logs and account identifiers excluded",
+  "sourceSha256": {
+    ".gitattributes": "04423778992d42d4f141b0747e1846b53a1dcee513eef429fcbcde2103201754",
+    ".gitignore": "9b08804ad162ea60c061433e348a4b7626e5462dcf714e0fdcf0da0c277c50f6",
+    "CHANGELOG.md": "e6eed46f873eb66ceb25645cf85c45d93934bc8838fbf12a9ad8bd001767e478",
+    "package-lock.json": "6d3590a6cc6d05fe2900b60ba52e9011987abcc363684dda4efed9a07856a43e",
+    "package.json": "cfceb19751a66ba231bc3521469846e23a005e50cd46c4196caa0b8775c9d525",
+    "README.md": "6e3db1bbc7a1ed56580588e80bf0dfcc5921db30ece8a2dd9465dac754c89e19",
+    "THIRD_PARTY_NOTICES.md": "36593cdbedc6a1b7579dca2b2db87953a192557e0050345bfef9879048348afe",
+    "docs/使用与恢复.md": "771edf102ce0486ba5f4762428d0c68dfb335ee72347d820822af4399b18a779",
+    "docs/开发历程.md": "36be5ad8d18a072eff29432b2d2776ec34a70774ec66c684b0c80e8d6420ce4d",
+    "docs/架构说明.md": "18a0ca2f1461fa9dcc400c2e016f07a5ddc4a04a9e361111973f92423143d031",
+    "docs/验证记录.md": "cd9540473c46fcc9aaa0e40f72ebc6ce0c988d19f84209c5c86aceac68aa093d",
+    "licenses/doubao-work-skin-MIT.txt": "982318c851ba4df5f890aeb777a6aa78f7a77444bb790e31b9852d3bfeb5e9f0",
+    "licenses/Node-LICENSE.txt": "c738ae413cf561f174e34f6961f8ca458aae2369a73640dda6234c629b98bcc4",
+    "src/cdp.mjs": "6ef9df5bd5970b3a0293b96262033de804a606b045919cfedbf2bbbbc1e124e7",
+    "src/client-info.ps1": "a0e95e89578c4093e52272e43317a0cabc3b7f296a6d67e2c0a0cc48681d0e8b",
+    "src/ClientSkin.cs": "d746c919caa63fb095f47efedf282c88eb3a41814f729e2c51c31a784994a2c8",
+    "src/host-fixed.mjs": "fe32aff64a0448c9767dc5b258bd37901c417ed610d0d10e1ceaff2511d9fee3",
+    "src/media-transfer.mjs": "6f8493e10a36296303c5e9b0820a827af856319491538c8689ec96e14dd4dec5",
+    "src/regions.mjs": "18a5efd0e0240862f14c3f46b73d1ef425a13142051200d61944f902a9cab78e",
+    "src/renderer.mjs": "ec469bed3b608a4b0e4d437f3d790e8e87a7347ea4a0e319ee33cf7383f6dd82",
+    "src/shortcut-installer.ps1": "416cdac77996adce2855339b95d3f1f19cc38b5de5dc86421314755dabc6d763",
+    "src/SkinLauncher.cs": "34241c1351eaf38b68c7ac6b6cefa96c8185951654144755e89f2c54b69477c8",
+    "src/theme.mjs": "7b2f2f12ceba4a6312e843bddc17f231819b5b746969a7fc69faef38b55d3d34",
+    "src/worker-lock.mjs": "8d633621eb98ef2521a44abac9a72b040ff5b7f0b826574f6d000cc0bcd8aa83",
+    "tests/left-fix.test.mjs": "4a7016ed3d162e24f95aac06895f78b129f89dc6526bf0ff6b137d8993257d1d",
+    "tests/regions.test.mjs": "90b1c8b279ef71ebe59bce4fdf35a8c2b447f5b0f4a0bf810b88b34629e0553e",
+    "tests/renderer.test.mjs": "46fcd7507bb87d406b69718e2c735217bd312bfead0ffc3cac1cc467a3ff70f2",
+    "tests/theme.test.mjs": "65b8200e7ae6cd31b444d684f6afa7a30a133984c54663135fe2adb9b3e8cfdf",
+    "tests/worker-lock.test.mjs": "88c85863b883b8e756661f253c61eddb0b8afe83cb6144c69353c49ca980c488",
+    "tools/build.py": "ef8d7e104ae42b46c5cc9d9293100eed814a9aac85973dedae7142d30d6830dd"
+  }
+}
