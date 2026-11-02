@@ -1,0 +1,68 @@
+name: Archive verified Windows client skin
+on:
+  push:
+    paths:
+      - '.github/workflows/archive-client-skin.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: archive-client-skin
+  cancel-in-progress: false
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download hash-pinned public archive
+        run: |
+          curl --fail --location --retry 2 --max-time 180 --output "$RUNNER_TEMP/client-skin.zip" 'https://aka.doubaocdn.com/s/d3S7AFDA3S'
+          printf '%s  %s\n' '8ff43ab387e4f3e944ca44d07ae5d0f811f68ec84f7c565b6197836bb1a75057' "$RUNNER_TEMP/client-skin.zip" | sha256sum --check --strict
+      - name: Validate and unpack only the approved project directory
+        env:
+          ARCHIVE: ${{ runner.temp }}/client-skin.zip
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib, zipfile
+          target = pathlib.Path('doubao-work-client-skin')
+          with zipfile.ZipFile(os.environ['ARCHIVE']) as z:
+              assert z.testzip() is None, 'Archive CRC failed'
+              assert len(z.namelist()) == 32, 'Unexpected file count'
+              for info in z.infolist():
+                  p = pathlib.PurePosixPath(info.filename)
+                  assert not p.is_absolute() and '..' not in p.parts
+                  assert p.parts[0] == 'doubao-work-client-skin'
+                  assert not info.is_dir()
+                  assert (info.external_attr >> 16) & 0o170000 != 0o120000
+                  assert 'data' not in p.parts and 'node_modules' not in p.parts
+                  assert p.suffix not in {'.png', '.jpg', '.mp4', '.webm'}
+                  out = pathlib.Path(*p.parts)
+                  if out.exists():
+                      assert out.read_bytes() == z.read(info.filename), 'Refuse to overwrite changed file: ' + str(out)
+              manifest = json.loads(z.read('doubao-work-client-skin/RELEASE-MANIFEST.json'))
+              for name, expected in manifest['sourceSha256'].items():
+                  content = z.read('doubao-work-client-skin/' + name)
+                  assert hashlib.sha256(content).hexdigest() == expected, name
+              release = z.read('doubao-work-client-skin/dist/' + manifest['publicArtifact']['name'])
+              assert len(release) == manifest['publicArtifact']['bytes']
+              assert hashlib.sha256(release).hexdigest() == manifest['publicArtifact']['sha256']
+              z.extractall('.')
+          complete = target / 'dist' / '豆包客户端皮肤-GitHub完整归档.zip'
+          data = pathlib.Path(os.environ['ARCHIVE']).read_bytes()
+          if complete.exists():
+              assert complete.read_bytes() == data
+          else:
+              complete.write_bytes(data)
+          receipt = {'archiveSha256': hashlib.sha256(data).hexdigest(), 'archiveBytes': len(data), 'filesInSourceArchive': 32, 'binaryStoredInRepository': True, 'privateDataIncluded': False}
+          (target / 'GITHUB-ARCHIVE-VERIFIED.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+      - name: Commit only approved directory
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- doubao-work-client-skin
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'archive: publish verified no-animation Windows client skin and complete development documentation'
+          git push origin HEAD:main
