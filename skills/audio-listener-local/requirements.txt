@@ -1,0 +1,7 @@
+# Runtime dependencies (CPU only; install into .runtime/deps, never global).
+sherpa-onnx==2.0.1
+numpy==2.5.4
+av==19.0.2
+pillow==13.0.0
+scipy==1.18.1
+PyYAML==6.0.3
