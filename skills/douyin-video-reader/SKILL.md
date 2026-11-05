@@ -1,6 +1,6 @@
 ---
 name: douyin-video-reader
-description: 当用户粘贴抖音链接（分享文案、v.douyin.com 短链、www.douyin.com/video|note），或要求「看看这条抖音讲什么」「这个抖音视频/图文是什么内容」「识别一下这个抖音链接」时使用：程序化取回文案、作者、发布时间、话题、互动数据和配乐信息，把图文图片或视频 mp4 落盘、均匀抽帧生成联系图，音轨交给 audio-listener-local 转写并产出可核对的证据目录。全程无可见浏览器、不需要登录、不需要用户接管。
+description: 当用户粘贴抖音链接（分享文案、v.douyin.com 短链、douyin.com 作品页）时使用：取回文案、作者、发布时间、话题、互动与配乐，把图文图片或视频 mp4 落盘、均匀抽帧，音轨交给 audio-listener-local 转写，产出可核对证据目录；全程无可见浏览器、免登录、免接管。
 ---
 
 # 抖音作品读取（douyin_reader.py）
