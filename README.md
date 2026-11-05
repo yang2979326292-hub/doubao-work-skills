@@ -1,17 +1,45 @@
 # doubao-work-skills
 
-适配 **豆包工作**（豆包办公）的 Agent skill 合集。这里收录的 skill 都在豆包工作里实际跑过，并按豆包工作的运行环境写好了调用方式：
+适配 **豆包工作**（豆包办公 / Doubao Work）的 Agent skill 合集：把平时要在网页上来回点的活，变成一条可复现的本地命令。目前收录：**抖音作品读取（Douyin）**、**本地音频转写与声音分析（ASR / audio tagging）**、**抖音账号运营**、**AdsPower 指纹浏览器管理**。
+
+> 关键词：豆包工作、豆包办公、Doubao Work、agent skill、Claude Skills、抖音、Douyin、抖音链接解析、图文下载、视频抽帧、音频转写、ASR、语音识别、SenseVoice、sherpa-onnx、声音事件识别、headless Playwright、免登录、不上传素材。
+
+这些 skill 都在豆包工作里实际跑过，并按豆包工作的运行环境写好了调用方式：
 
 - 豆包工作在你的 Windows 电脑上执行命令时，用的是它自带的 **PowerShell 7**，不是 bash，也不是 Windows 自带的 PowerShell 5.1。
-- 本合集的脚本用 PowerShell 7、Node.js 或只用标准库的 Python 3 编写：Windows 电脑上这三样豆包工作都自带；云主机上自带 Node.js 和 Python 3，没有 PowerShell。不需要另外安装 git 或其他软件。
-- 需要操作本机软件（比如 AdsPower）的 skill，要在豆包工作连接的**你的电脑**上运行，云主机上用不了。
+- 脚本用 PowerShell 7、Node.js 或 Python 3 编写。其中 `adspower-browser`、`douyin-auto-operator` 只依赖系统自带的运行时；`douyin-video-reader`、`audio-listener-local` 还需要用 pip 装几个包（`playwright`、`sherpa-onnx`、`av`、`numpy`、`scipy`、`pillow`），这些包**只装进 skill 自己的 `.runtime`**，不动系统全局环境，装法见下面的[带依赖的 skill 怎么装](#带依赖的-skill-怎么装)。
+- `douyin-video-reader` 用本机已装的 Chrome 开无窗口模式，不需要下载浏览器包，也不需要登录或扫码。
+- 需要操作本机软件（AdsPower、Chrome）或本机文件的 skill，要在豆包工作连接的 **你的电脑** 上运行，云主机上用不了。
 
 ## Skill 列表
 
 | Skill | 用途 | 运行环境 | 使用说明 |
 |---|---|---|---|
+| [douyin-video-reader](skills/douyin-video-reader) | 读抖音作品：粘一条分享文案或 `v.douyin.com` 短链，取回文案、作者、发布时间、话题、互动、配乐，把图文图片或视频 mp4 落盘，视频均匀抽帧做联系图，音轨转写；全程无可见浏览器、免登录 | Windows 电脑（Python 3 + 本机 Chrome） | [docs/douyin-video-reader.md](docs/douyin-video-reader.md) |
+| [audio-listener-local](skills/audio-listener-local) | 在本地 CPU 上「听」音频/录音/视频音轨：分段人声转写、音乐与音效标签候选、响度与节奏测量；素材不上传 | Windows 电脑或云主机（Python 3，纯 CPU 推理） | [docs/audio-listener-local.md](docs/audio-listener-local.md) |
 | [adspower-browser](skills/adspower-browser) | 通过 AdsPower 的 Local API 管理指纹浏览器：打开、关闭、新建、修改、删除、查询环境，以及分组、标签、代理、团队成员、内核下载 | Windows 电脑（需要本机运行 AdsPower） | [docs/adspower-browser.md](docs/adspower-browser.md) |
 | [douyin-auto-operator](skills/douyin-auto-operator) | 抖音账号自动运营：读取创作者中心真实数据复盘、制作「横屏氛围图 + 长文案 + 5 个话题 + 热门榜 BGM」图文、定时备稿和发布；运营方向、主题、风格、发布时间都可在配置文件里定制 | 电脑或云主机（需要能登录抖音创作者中心） | [docs/douyin-auto-operator.md](docs/douyin-auto-operator.md) |
+
+`douyin-video-reader` 和 `audio-listener-local` 是一对：前者把作品音轨抽成 `audio.wav` 后直接交给后者转写，声音结论都落在 `audio_analysis/` 里。
+
+## 带依赖的 skill 怎么装
+
+`douyin-video-reader`、`audio-listener-local` 第一次使用前跑一次安装（都只装进 skill 内的 `.runtime`，不污染全局）：
+
+```powershell
+python "<skill_dir>\scripts\setup.py" --dependencies
+python "<skill_dir>\scripts\setup.py" --models      # 仅 audio-listener-local 需要
+```
+
+装完自检，看到 `ready: true` 才能用：
+
+```powershell
+python "<skill_dir>\scripts\douyin_reader.py" --doctor
+python "<skill_dir>\scripts\listen.py" --doctor
+```
+
+- 模型默认从 `hf-mirror.com` 拉取，失败自动回退 `huggingface.co`；有的网络里 GitHub 不可达，所以不走 GitHub release。
+- 安装包默认从 PyPI 拉；国内网络慢时加 `--index-url https://pypi.tuna.tsinghua.edu.cn/simple`。
 
 ## 下载
 
@@ -24,26 +52,26 @@
 
 在豆包工作里直接说（把 skill 名换成你要装的那个）：
 
-> 帮我把 https://github.com/yang2979326292-hub/doubao-work-skills 里的 douyin-auto-operator 安装到我的豆包工作用户 skill 目录
+> 帮我把 https://github.com/yang2979326292-hub/doubao-work-skills 里的 douyin-video-reader 安装到我的豆包工作用户 skill 目录
 
 豆包工作会把 skill 下载到它的用户 skill 目录，下一轮对话就能用了。
 
 ### 方法二：手动安装
 
 1. 点上面的 [下载合集 ZIP](https://codeload.github.com/yang2979326292-hub/doubao-work-skills/zip/refs/heads/main)（或在本页点 **Code → Download ZIP**），下载后解压。
-2. 把 `skills` 文件夹里你要用的 skill 文件夹（比如 `douyin-auto-operator`）整个复制到豆包工作的用户 skill 目录：
+2. 把 `skills` 文件夹里你要用的 skill 文件夹（比如 `douyin-video-reader`）整个复制到豆包工作的用户 skill 目录：
 
    ```
    %LOCALAPPDATA%\DoubaoWork\User Data\Default\.doubaowork\agent_mode\workspace\.user_skills\
    ```
 
    放在这里的 skill 会在下一轮对话生效，也会同步到豆包工作的云主机。
-3. 在豆包工作里提到这个 skill 的用途（比如“帮我运营抖音账号”），确认它被调用。
+3. 在豆包工作里提到这个 skill 的用途（比如“看看这条抖音讲什么”），确认它被调用。
 
 ### 方法三：用 skills CLI 安装（同时装给其他 Agent）
 
 ```bash
-npx skills add https://github.com/yang2979326292-hub/doubao-work-skills --skill douyin-auto-operator -g -y --copy
+npx skills add https://github.com/yang2979326292-hub/doubao-work-skills --skill douyin-video-reader -g -y --copy
 ```
 
 - skills CLI 从 GitHub 下载时要用到 **git**。电脑上没装 git 会报 `spawn git ENOENT`。
@@ -57,6 +85,7 @@ skills/<skill名>/      每个 skill 一个文件夹，Agent 只读取这里面�
   scripts/             可执行脚本
   references/          需要时才读的参考资料
   assets/              模板、配置等素材
+  .runtime/            运行依赖与模型（本地生成，不入库）
 docs/<skill名>.md      给人看的使用说明（不会被 Agent 加载）
 tools/validate-skills.mjs   提交前的检查脚本
 ```
