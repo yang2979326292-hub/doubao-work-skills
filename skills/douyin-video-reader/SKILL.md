@@ -67,7 +67,7 @@ python "<skill_dir>\scripts\douyin_reader.py" --link "<抖音分享文案或链�
 | `headless:api` | 视频页由页面自己请求 `/aweme/v1/web/aweme/detail/`，捕获该响应取 `aweme_detail` |
 
 - 只用无窗口浏览器，不弹窗、不登录、不需要扫码；出现登录/验证墙时直接报 `AUTH_REQUIRED` 并停止，不绕过。
-- 站点结构变化会让 flight/接口通道失效：此时先用 `--debug` 看 `flight_hit` / `api_hit`，再考虑改用 `--aweme-id --kind ... --item-only` 单独验证数据层。
+- 站点结构变化会让 flight/接口通道失效：此时先用 `--debug` 看 `flight_hit` / `api_hit`，再考虑改用 `--aweme-id --kind --item-only` 单独验证数据层。
 - 作品已删除、私密或地区受限时报 `ITEM_DATA_UNAVAILABLE`。
 - 不解析评论列表、不抓关注关系、不做批量刷取；单次一个作品。
 
