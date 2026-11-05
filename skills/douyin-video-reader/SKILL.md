@@ -1,6 +1,6 @@
 ---
 name: douyin-video-reader
-description: 程序化读取抖音作品（分享文案、v.douyin.com 短链、www.douyin.com/video|note 链接）：取回文案、作者、发布时间、话题、互动数据和配乐信息，把图文图片或视频 mp4 落盘，视频均匀抽帧生成联系图，音轨交给 audio-listener-local 转写并产出可核对的证据目录。全程无可见浏览器、不需要登录、不需要用户接管。当用户粘贴抖音链接，或要求「看看这条抖音讲什么」「这个抖音视频/图文是什么内容」「识别一下这个抖音链接」时使用。
+description: 当用户粘贴抖音链接（分享文案、v.douyin.com 短链、www.douyin.com/video|note），或要求「看看这条抖音讲什么」「这个抖音视频/图文是什么内容」「识别一下这个抖音链接」时使用：程序化取回文案、作者、发布时间、话题、互动数据和配乐信息，把图文图片或视频 mp4 落盘、均匀抽帧生成联系图，音轨交给 audio-listener-local 转写并产出可核对的证据目录。全程无可见浏览器、不需要登录、不需要用户接管。
 ---
 
 # 抖音作品读取（douyin_reader.py）
@@ -67,7 +67,7 @@ python "<skill_dir>\scripts\douyin_reader.py" --link "<抖音分享文案或链�
 | `headless:api` | 视频页由页面自己请求 `/aweme/v1/web/aweme/detail/`，捕获该响应取 `aweme_detail` |
 
 - 只用无窗口浏览器，不弹窗、不登录、不需要扫码；出现登录/验证墙时直接报 `AUTH_REQUIRED` 并停止，不绕过。
-- 站点结构变化会让 flight/接口通道失效：此时先用 `--debug` 看 `flight_hit` / `api_hit`，再考虑改用 `--aweme-id --item-only` 单独验证数据层。
+- 站点结构变化会让 flight/接口通道失效：此时先用 `--debug` 看 `flight_hit` / `api_hit`，再考虑改用 `--aweme-id --kind ... --item-only` 单独验证数据层。
 - 作品已删除、私密或地区受限时报 `ITEM_DATA_UNAVAILABLE`。
 - 不解析评论列表、不抓关注关系、不做批量刷取；单次一个作品。
 
